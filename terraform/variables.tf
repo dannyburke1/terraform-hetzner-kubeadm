@@ -3,9 +3,10 @@ variable "api_key" {
 }
 
 variable "os_image" {
-  default = "centos-8"
+  default = "centos-7"
 }
 
 variable "instance_type" {
-  default = "cx11"
+  default = "cpx11"
 }
+
