@@ -1,7 +1,12 @@
 #!/bin/sh
 swapoff -a 
 sudo yum update -y && yum upgrade -y
-sudo yum install -y git 
+sudo yum install -y wget
+
+# Install ectd
+wget https://github.com/etcd-io/etcd/releases/download/v3.3.12/etcd-v3.3.12-linux-amd64.tar.gz
+tar xvf etcd-v3.3.12-linux-amd64.tar.gz
+sudo mv etcd-v3.3.12-linux-amd64/etcd* /usr/local/bin
 
 # Install Docker
 yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -48,14 +53,11 @@ EOF
 sudo setenforce 0 
 sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config 
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes 
-sudo systemctl enable --now kubelet 
-systemctl daemon-reload 
-systemctl restart kubelet
-systemctl restart kubeadm 
-systemctl restart kubectl
-systemctl daemon-reload
-systemctl restart docker
 
+systemctl restart kubelet kubeadm kubectl docker
+systemctl daemon-reload
+
+sudo systemctl enable --now kubelet
 sudo systemctl enable --now docker
 
 rm -rf /home/*/.ssh/known_hosts
