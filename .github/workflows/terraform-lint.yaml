@@ -19,11 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: install deps
-        run: |
-          pip3 install --upgrade pip && pip3 install --upgrade setuptools
-          pip3 install checkov
-
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
@@ -33,7 +28,10 @@ jobs:
         run: terraform fmt -check
 
       - name: Checkov tests
-        run: checkov -d .
+        run: |
+          pip3 install --upgrade pip && pip3 install --upgrade setuptools 
+          pip3 install checkov
+          checkov -d .
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
