@@ -19,6 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Checkov tests
+        run: |
+          pip install checkov
+          ls -l
+          checkov -d .
+
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
@@ -26,12 +37,6 @@ jobs:
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
         run: terraform fmt -check
-
-      - name: Checkov tests
-        run: |
-          pip3 install --upgrade pip && pip3 install --upgrade setuptools 
-          pip3 install checkov
-          checkov -d .
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
