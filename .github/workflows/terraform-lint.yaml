@@ -1,0 +1,46 @@
+name: "Terraform CI"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  terraform:
+    name: "Terraform CI"
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: install deps
+        run: |
+          wget https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh && chmod +x install.sh
+          ./install.sh -b $HOME/.bin && export PATH=$PATH:$HOME/.bin
+          pip3 install --upgrade pip && pip3 install --upgrade setuptools
+          pip3 install checkov
+          tfswitch -b $HOME/.bin/terraform
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Checkov tests
+        run: checkov -d .
+
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      #   run: terraform apply -auto-approve
