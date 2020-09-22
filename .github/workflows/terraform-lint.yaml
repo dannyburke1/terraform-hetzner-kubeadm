@@ -21,13 +21,8 @@ jobs:
 
       - name: install deps
         run: |
-          wget https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh && chmod +x install.sh
-          ./install.sh -b $HOME/.bin && export PATH=$PATH:$HOME/.bin
           pip3 install --upgrade pip && pip3 install --upgrade setuptools
           pip3 install checkov
-          ls -l
-          tfswitch -b $HOME/.bin/terraform
-          terraform --version
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
