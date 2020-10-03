@@ -29,3 +29,13 @@ Once you've updated the api key variable, you're ready to run `terraform apply` 
 
 You can then SSH to the master with the `root` user and begin following the kubeadm cluster walkthrough. 
 
+### Costs
+
+Kubeadm has resource requirements for it to run:
+- 2GB Ram
+- 2vCPU Cores for the master/control plane node.
+
+This module has the correct instance sizes to run these instances with an estimated cost of:
+
+8.38 euros p/month in Helsinki region for a master and control plane node.
+
