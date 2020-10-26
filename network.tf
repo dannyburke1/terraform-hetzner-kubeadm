@@ -11,11 +11,13 @@ resource "hcloud_network_subnet" "subnet_pub" {
 }
 
 resource "hcloud_server_network" "kube_master_network" {
-  server_id  = hcloud_server.kube_master.id
+  count = var.master_nodes
+  server_id  = hcloud_server.kube_master[count.index].id
   network_id = hcloud_network.kube_network.id
 }
 
 resource "hcloud_server_network" "kube_worker_network" {
-  server_id  = hcloud_server.kube_worker_1.id
+  count = var.worker_nodes
+  server_id  = hcloud_server.kube_worker[count.index].id
   network_id = hcloud_network.kube_network.id
 }
