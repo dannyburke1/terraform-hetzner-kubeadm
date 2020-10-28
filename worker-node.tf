@@ -1,6 +1,6 @@
 resource "hcloud_server" "kube_worker" {
-  count = var.worker_nodes
-  name = format("worker-%03d", count.index + 1)
+  count       = var.worker_nodes
+  name        = format("worker-%03d", count.index + 1)
   image       = var.os_image
   server_type = var.instance_type
   ssh_keys    = [hcloud_ssh_key.this.name]
