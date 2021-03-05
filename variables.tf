@@ -10,10 +10,14 @@ variable "instance_type" {
   default = "cpx11"
 }
 
-variable "master_nodes" {
+variable "master_node_count" {
+  default = "1"
+}
+
+variable "worker_node_count" {
   default = "3"
 }
 
-variable "worker_nodes" {
-  default = "3"
+variable "multi_master" {
+  default = false
 }

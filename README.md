@@ -19,7 +19,9 @@ You can call this module in your Terraform project like so:
 
 ```bash
 module "hetzner_kubeadm" {
-  source =  "git@github.com:dannyburke1/hetzner-kubeadm.git"
+  source             =  "git@github.com:dannyburke1/hetzner-kubeadm.git"
+  worker_node_count  = 6
+  api_key            = "MY_KEY_HERE_PLEASE_KEEP_ME_SAFE"
 }
 ```
 
@@ -39,3 +41,18 @@ This module has the correct instance sizes to run these instances with an estima
 
 8.38 euros p/month in Helsinki region for a master and control plane node.
 
+# Multi Master Configuration now available
+
+If you want to run multiple master nodes on your heznter cluster, you can enable it with the boolean:
+
+```terraform
+module "hetzner_kubeadm" {
+  source             =  "git@github.com:dannyburke1/hetzner-kubeadm.git"
+  multi_master       = true
+  master_node_count  = var.multi_master == "true" ? 3 : 1
+  worker_node_count  = 6
+  api_key            = "MY_KEY_HERE_PLEASE_KEEP_ME_SAFE"
+}
+```
+
+Read the docs here on how to configure multiple master nodes using Kubeadm: [Kubeadm Multi Master](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#steps-for-the-rest-of-the-control-plane-nodes)
