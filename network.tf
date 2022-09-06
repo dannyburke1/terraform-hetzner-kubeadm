@@ -4,7 +4,7 @@ resource "random_string" "random" {
   override_special = "/@£$"
 }
 resource "hcloud_network" "kube_network" {
-  name     = join("-",["hetzner-kubeadm", random_string.random.id])
+  name     = join("-", ["hetzner-kubeadm", random_string.random.id])
   ip_range = "10.0.0.0/16"
 }
 
