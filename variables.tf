@@ -1,5 +1,5 @@
 variable "api_key" {
-  default = ""
+  default = "" // Change this to your own, don't commit it.
 }
 
 variable "os_image" {
